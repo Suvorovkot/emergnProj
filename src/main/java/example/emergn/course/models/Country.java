@@ -1,4 +1,4 @@
-package com.emergn.course.models;
+package example.emergn.course.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

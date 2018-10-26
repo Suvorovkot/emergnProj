@@ -1,4 +1,4 @@
-package com.emergn.course;
+package example.emergn.course;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

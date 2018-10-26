@@ -1,4 +1,4 @@
-package com.emergn.course;
+package example.emergn.course;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,15 +13,18 @@ public class AlbumsController {
 
     @RequestMapping(value = "/addArtist", method = RequestMethod.POST)
     public String addArtist(@PathVariable String firstName,
-                           @PathVariable String lastName,
-                           @PathVariable String stageName) {
+                            @PathVariable String lastName,
+                            @PathVariable String stageName,
+                            Model model) {
         return null;
     }
 
     @RequestMapping(value = "/addAlbum", method = RequestMethod.POST)
     public String addAlbum(@PathVariable String name,
                            @PathVariable Integer year,
-                           @PathVariable Integer numberOfSong) {
+                           @PathVariable Integer numberOfSong,
+                           @PathVariable String stageName,
+                           Model model) {
         return null;
     }
 

@@ -1,12 +1,11 @@
-package com.emergn.course.models;
+package example.emergn.course.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
+@Table(name = "artist")
 public class Artist {
 
     @Id
@@ -15,11 +14,21 @@ public class Artist {
     private String firstName;
     private String lastName;
     private String stageName;
+    private Countries country;
 
-    public Artist(String firstName, String lastName, String stageName) {
+    @OneToMany
+    private List<Album> albums;
+
+    public Artist(String firstName,
+                  String lastName,
+                  String stageName,
+                  Countries country,
+                  List<Album> albums) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.stageName = stageName;
+        this.country = country;
+        this.albums = albums;
     }
 
     public long getId() {
@@ -52,5 +61,21 @@ public class Artist {
 
     public String getStageName() {
         return stageName;
+    }
+
+    public Countries getCountry() {
+        return country;
+    }
+
+    public void setCountry(Countries country) {
+        this.country = country;
+    }
+
+    public List<Album> getAlbums() {
+        return albums;
+    }
+
+    public void setAlbums(List<Album> albums) {
+        this.albums = albums;
     }
 }
