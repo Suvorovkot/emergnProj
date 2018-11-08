@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
-public class AlbumsController {
-    private Database db;
+public class DiscographyController {
 
     @RequestMapping(value = "/addArtist", method = RequestMethod.POST)
     public String addArtist(@PathVariable String firstName,
