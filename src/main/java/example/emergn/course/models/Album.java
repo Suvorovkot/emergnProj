@@ -13,13 +13,13 @@ public class Album {
     private Integer year;
     private Integer numberOfSongs;
 
-    private Integer artistId;
+    private String artistName;
 
-    public Album(String name, Integer year, Integer numberOfSongs, Integer artistId) {
+    public Album(String name, Integer year, Integer numberOfSongs, String artistName) {
         this.name = name;
         this.year = year;
         this.numberOfSongs = numberOfSongs;
-        this.artistId = artistId;
+        this.artistName = artistName;
     }
 
     public void setId(long id) {
@@ -54,11 +54,11 @@ public class Album {
         return year;
     }
 
-    public Integer getAlbumId() {
-        return artistId;
+    public String  getArtistName() {
+        return artistName;
     }
 
-    public void setAlbumId(Integer artistId) {
-        this.artistId = artistId;
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
     }
 }

@@ -1,6 +1,8 @@
 package example.emergn.course.models;
 
-public enum Countries {
+import java.io.Serializable;
+
+public enum Countries implements Serializable {
     RUSSIA,
     BRITAIN,
     USA,

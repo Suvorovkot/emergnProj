@@ -1,11 +1,18 @@
 package example.emergn.course.models;
 
+import example.emergn.course.database.PostgreSQLEnumType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+
 import javax.persistence.*;
 import java.util.List;
 
 
 @Entity
-@Table(name = "artist")
+@Table(name = "artists")
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class)
 public class Artist {
 
     @Id
@@ -14,6 +21,8 @@ public class Artist {
     private String firstName;
     private String lastName;
     private String stageName;
+    @Enumerated(EnumType.STRING)
+    @Type(type = "pgsql_enum")
     private Countries country;
 
     @OneToMany
