@@ -1,4 +1,4 @@
-package example.emergn.course.models;
+package example.emergn.course.database.models;
 
 import example.emergn.course.database.PostgreSQLEnumType;
 import org.hibernate.annotations.Type;

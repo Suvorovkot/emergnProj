@@ -1,10 +1,10 @@
-package example.emergn.course;
+package example.emergn.course.controllers;
 
-import example.emergn.course.database.AlbumRepository;
-import example.emergn.course.database.ArtistRepository;
-import example.emergn.course.models.Album;
-import example.emergn.course.models.Artist;
-import example.emergn.course.models.Countries;
+import example.emergn.course.database.repo.AlbumRepository;
+import example.emergn.course.database.repo.ArtistRepository;
+import example.emergn.course.database.models.Album;
+import example.emergn.course.database.models.Artist;
+import example.emergn.course.database.models.Countries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.LinkedList;
-import java.util.List;
 
 @Controller
 public class GreetingController {
