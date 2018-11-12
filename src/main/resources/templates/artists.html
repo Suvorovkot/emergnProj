@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Artists database</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" href="/bootstrap.min.css" media="screen"/>
+</head>
+<body>
+<div class="container">
+    <div class="page-header" id="banner">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6">
+                <h1>Artists</h1>
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Stage Name</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Country</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="artists : ${artists}">
+                        <td th:text="${artists.stageName}"></td>
+                        <td th:text="${artists.firstName}"></td>
+                        <td th:text="${artists.lastName}"></td>
+                        <td th:text="${artists.country}"></td>
+<!--                        <td>
+                            <a th:href="@{/developer/{id}(id=${developer.id})}">view</a>
+                        </td>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
