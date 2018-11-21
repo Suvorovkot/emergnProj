@@ -19,48 +19,46 @@ public class AlbumsController {
       }
   */
     @RequestMapping(value = "/addAlbum", method = RequestMethod.POST)
-    public String addAlbum(@PathVariable String name,
+    public void addAlbum(@PathVariable String name,
                            @PathVariable Integer year,
                            @PathVariable Integer numberOfSong,
                            @PathVariable String stageName,
                            Model model) {
-        return null;
+
     }
 
     @RequestMapping(value = "/updateAlbum", method = RequestMethod.POST)
-    public String updateAlbum(@PathVariable String name,
+    public void updateAlbum(@PathVariable String name,
                               @PathVariable Integer year,
                               @PathVariable Integer numberOfSong,
                               @PathVariable String stageName,
                               Model model) {
-        return null;
+
     }
 
     @RequestMapping(value = "/deleteAlbum", method = RequestMethod.POST)
-    public String deleteAlbum(@PathVariable String name,
+    public void deleteAlbum(@PathVariable String name,
                               @PathVariable String stageName,
                               Model model) {
-        return null;
+
     }
 
     @RequestMapping(value = "/getAlbumByName", method = RequestMethod.POST)
-    public String getAlbumByName(@PathVariable String name,
+    public void getAlbumByName(@PathVariable String name,
                                  Model model) {
-        return null;
     }
 
     @RequestMapping(value = "/getAlbumsByArtist", method = RequestMethod.POST)
-    public String getAlbumsByArtist(@PathVariable String stageName,
+    public void getAlbumsByArtist(@PathVariable String stageName,
                                     Model model) {
-        return null;
     }
 
-    @RequestMapping(value = "/getAlbumsByArtistAndName", method = RequestMethod.POST)
-    public String getAlbumsByArtistAndName(@PathVariable String name,
-                                           @PathVariable String stageName,
-                                           Model model) {
-        return null;
-    }
+//    @RequestMapping(value = "/getAlbumsByArtistAndName", method = RequestMethod.POST)
+//    public void getAlbumsByArtistAndName(@PathVariable String name,
+//                                           @PathVariable String stageName,
+//                                           Model model) {
+//
+//    }
 
 }
 
