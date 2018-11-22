@@ -22,22 +22,33 @@ public class ArtistsController {
                             Model model) {
         artistRepository.save(new Artist(firstName, lastName, stageName, Countries.valueOf(country.toUpperCase())));
         return "redirect:/artists";
+    }
+    @RequestMapping(value = "/editArt")
+    public String editArt(@RequestParam Integer id,
+                          @RequestParam String firstName,
+                            @RequestParam String lastName,
+                            @RequestParam String stageName,
+                            @RequestParam String country,
+                            Model model) {
+        artistRepository.save(new Artist(id, firstName, lastName, stageName, Countries.valueOf(country.toUpperCase())));
+        return "redirect:/artists";
+    }
 
+    @RequestMapping(value = "/editArtist", method = RequestMethod.GET)
+    public String editArtistPage(@RequestParam Integer id,
+                                 @RequestParam String firstName,
+                                 @RequestParam String lastName,
+                                 @RequestParam String stageName,
+                                 @RequestParam String country,
+                                 Model model) {
+        model.addAttribute("artist", new Artist(id, firstName, lastName, stageName, Countries.valueOf(country.toUpperCase())));
+        return "editArtist";
     }
 
     @RequestMapping(value = "/addArtist", method = RequestMethod.GET)
     public String addArtistPage(Model model) {
         model.addAttribute("artist", new Artist());
         return "addArtist";
-    }
-
-    @RequestMapping(value = "/updateArtist", method = RequestMethod.POST)
-    public void updateArtist(@PathVariable String firstName,
-                             @PathVariable String secondName,
-                             @PathVariable String stageName,
-                             @PathVariable Countries country,
-                             Model model) {
-        // Как делать юпдейт артиста?
     }
 
     @RequestMapping(value = "/deleteArtist", method = RequestMethod.GET)
