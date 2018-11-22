@@ -2,23 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Menu</title>
+    <title></title>
 
     <link rel="stylesheet" href="/bootstrap.min.css" media="screen"/>
 </head>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Artists base by Berlioz&Kot</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a onclick="window.location='/greeting'" class="nav-link" href="#">Homepage</a>
+            </li>
+            <li class="nav-item">
+                <a onclick="window.location='/addArtist'" class="nav-link" href="#">Add new artist</a>
+            </li>
+            <li class="nav-item">
+                <a onclick="window.location='/addAlbum'" class="nav-link" href="#">Add new album</a>
+            </li>
+            <li class="nav-item">
+                <a onclick="window.location='/artists'" class="nav-link" href="#">Show artists</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
 <body>
 <div class="container">
     <div class="page-header" id="banner">
         <div class="row">
             <div class="col-lg-6 col-md-7 col-sm-6">
-                <h1>Menu</h1>
-                <form th:action="@{/}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                        <div class="btn-group-vertical" data-toggle="buttons">
-                            <button onclick="window.location='/addAlbum'" type="button" class="btn btn-primary">Add album</button>
-                            <button onclick="window.location='/addArtist'" type="button" class="btn btn-primary">Add artist</button>
-                            <button onclick="window.location='/artists'" type="button" class="btn btn-primary">Artists</button>
-                        </div>
-                </form>
+                <h1>Louder</h1>
+                <h1>than the DJ,</h1>
+                <h2>faster</h2>
+                <h2>than the airwaves!</h2>
+
             </div>
         </div>
     </div>
