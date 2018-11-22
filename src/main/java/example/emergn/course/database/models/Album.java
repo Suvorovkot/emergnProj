@@ -15,7 +15,22 @@ public class Album {
 
     private String artistName;
 
+    public Album() {
+        super();
+    }
+
+    public Album(Integer id, String name, Integer year, Integer numberOfSongs, String artistName) {
+        super();
+        this.id = id;
+        this.name = name;
+        this.year = year;
+        this.numberOfSongs = numberOfSongs;
+        this.artistName = artistName;
+    }
+
+
     public Album(String name, Integer year, Integer numberOfSongs, String artistName) {
+        super();
         this.name = name;
         this.year = year;
         this.numberOfSongs = numberOfSongs;
