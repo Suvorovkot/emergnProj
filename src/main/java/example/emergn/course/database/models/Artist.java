@@ -30,11 +30,23 @@ public class Artist {
         super();
     }
 
-    public Artist(Integer id,
-                  String firstName,
+    public Artist(String firstName,
                   String lastName,
                   String stageName,
                   Countries country) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.stageName = stageName;
+        this.country = country;
+
+    }
+
+    public Artist(Integer id,
+                       String firstName,
+                       String lastName,
+                       String stageName,
+                       Countries country) {
         super();
         this.id = id;
         this.firstName = firstName;

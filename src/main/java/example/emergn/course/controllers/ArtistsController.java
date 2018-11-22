@@ -12,23 +12,22 @@ import org.springframework.web.bind.annotation.*;
 public class ArtistsController {
 
     @Autowired
-    ArtistRepository artistRepository;
+    private ArtistRepository artistRepository;
 
-    @RequestMapping(value = "/createArtist", method = RequestMethod.POST)
+    @RequestMapping(value = "/createArtist")
     public String addArtist(@RequestParam String firstName,
-                            @RequestParam String secondName,
+                            @RequestParam String lastName,
                             @RequestParam String stageName,
                             @RequestParam String country,
                             Model model) {
-        Artist artistToAdd = new Artist(null, firstName, secondName, stageName, Countries.valueOf(country.toUpperCase()));
-        artistRepository.save(artistToAdd);
-        // Тут может быть ваше всплывающее окошко
+        artistRepository.save(new Artist(firstName, lastName, stageName, Countries.valueOf(country.toUpperCase())));
         return "redirect:/artists";
 
     }
 
     @RequestMapping(value = "/addArtist", method = RequestMethod.GET)
-    public String addArtistPage() {
+    public String addArtistPage(Model model) {
+        model.addAttribute("artist", new Artist());
         return "addArtist";
     }
 
@@ -50,7 +49,7 @@ public class ArtistsController {
     }
 
     @GetMapping("artists")
-    public String getArtists(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
+    public String getArtists(Model model) {
         model.addAttribute("artists", artistRepository.findAll());
         return "artists";
     }
