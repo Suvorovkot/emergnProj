@@ -31,13 +31,12 @@ public class Artist {
     public Artist(String firstName,
                   String lastName,
                   String stageName,
-                  Countries country,
-                  List<Album> albums) {
+                  Countries country) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.stageName = stageName;
         this.country = country;
-        this.albums = albums;
+
     }
 
     public long getId() {
