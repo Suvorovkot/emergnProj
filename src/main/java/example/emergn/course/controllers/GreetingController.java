@@ -32,7 +32,7 @@ public class GreetingController {
     @GetMapping("greetingNew")
     public String greetingNew(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
-        Artist test = new Artist("Noel", "Gallagher", "NGHFB", Countries.BRITAIN, new LinkedList<Album>() );
+        Artist test = new Artist("Noel", "Gallagher", "NGHFB", Countries.BRITAIN);
         artistRepository.save(test);
         return "greeting";
     }
@@ -43,24 +43,11 @@ public class GreetingController {
         return "greeting";
     }
 
-
-    @GetMapping("addArtist")
-    public String qqq(/*@PathVariable String firstName,
-                      @PathVariable String lastName,
-                      @PathVariable String stageName,
-                      @PathVariable String country,*/
-            Model model) {
-        /*System.out.println(firstName);
-        System.out.println(lastName);
-        System.out.println(stageName);*/
-        return "addArtist";
-    }
-
     @GetMapping("artists")
     public String smth(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", "kek");
-        Artist test = new Artist("Noel", "Gallagher", "NGHFB", Countries.BRITAIN, new LinkedList<Album>() );
-        Artist test1 = new Artist("Liam", "Gallagher", "Liam Gallagher", Countries.BRITAIN, new LinkedList<Album>() );
+        Artist test = new Artist("Noel", "Gallagher", "NGHFB", Countries.BRITAIN);
+        Artist test1 = new Artist("Liam", "Gallagher", "Liam Gallagher", Countries.BRITAIN);
         LinkedList artists = new LinkedList<Artist>();
         artists.add(test);
         artists.add(test1);

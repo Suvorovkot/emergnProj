@@ -1,8 +1,8 @@
 package example.emergn.course.database.repo;
 
 import example.emergn.course.database.models.Album;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface AlbumRepository extends CrudRepository<Album, Integer> {
+public interface AlbumRepository extends PagingAndSortingRepository<Album, Integer> {
 
 }
