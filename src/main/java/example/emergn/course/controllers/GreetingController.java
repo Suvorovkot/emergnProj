@@ -22,6 +22,11 @@ public class GreetingController {
     ArtistRepository artistRepository;
 
     @GetMapping("greeting")
+    public String greeting() {
+        return "greeting";
+    }
+
+    @GetMapping("greetingNGHFB")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
         Album test = new Album("who built the moon?", 2017, 12, "NGHFB");
