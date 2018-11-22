@@ -5,8 +5,6 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
-import java.util.List;
-
 
 @Entity
 @Table(name = "artists")
@@ -17,7 +15,7 @@ public class Artist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Integer id;
     private String firstName;
     private String lastName;
     private String stageName;
@@ -25,13 +23,20 @@ public class Artist {
     @Type(type = "pgsql_enum")
     private Countries country;
 
-    @OneToMany
-    private List<Album> albums;
+    /*@OneToMany
+    private List<Album> albums;*/
 
-    public Artist(String firstName,
+    public Artist() {
+        super();
+    }
+
+    public Artist(Integer id,
+                  String firstName,
                   String lastName,
                   String stageName,
                   Countries country) {
+        super();
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.stageName = stageName;
@@ -39,7 +44,7 @@ public class Artist {
 
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -47,7 +52,7 @@ public class Artist {
         this.firstName = firstName;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -79,11 +84,11 @@ public class Artist {
         this.country = country;
     }
 
-    public List<Album> getAlbums() {
+/*    public List<Album> getAlbums() {
         return albums;
     }
 
     public void setAlbums(List<Album> albums) {
         this.albums = albums;
-    }
+    }*/
 }
