@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class Album {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private long id;
+    private Integer id;
     private String name;
     private Integer year;
     private Integer numberOfSongs;
@@ -22,11 +22,11 @@ public class Album {
         this.artistName = artistName;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
