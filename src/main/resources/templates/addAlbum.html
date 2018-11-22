@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Album</title>
-
     <link rel="stylesheet" href="/bootstrap.min.css" media="screen"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Artists base by Berlioz&Kot</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+            aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -35,40 +36,41 @@
         <div class="row">
             <div class="col-lg-6 col-md-7 col-sm-6">
                 <h1>Add an album</h1>
-                <h2>Sorry, page is not ready!</h2>
-                <!--<form th:action="@{/addAlbum}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form th:action="@{/createAlbum}" method="get" enctype="multipart/form-data"
+                      class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Album name</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="name"/>
+                                <input type="text" class="form-control" name="name">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-lg-3 control-label">Year of release</label>
+                            <label class="col-lg-3 control-label">Release year</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="year"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-lg-3 control-label">Number of songs</label>
-                            <div class="col-lg-9">
-                                <input type="text" class="form-control" name="numberOfSongs"/>
+                                <input type="text" class="form-control" name="year">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Artist name</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="stageName"/>
+                                <input type="text" class="form-control" name="artistName">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">Number of songs</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" name="numberOfSongs">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-lg-12 col-lg-offset-3">
-                                <button type="submit" class="btn btn-info" name="button">Create</button>
+                                <input type="submit" class="btn btn-info" value="Create"/>
                             </div>
                         </div>
                     </fieldset>
-                </form> -->
+
+                </form>
             </div>
         </div>
     </div>

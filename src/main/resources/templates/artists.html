@@ -62,7 +62,7 @@
                         <td th:text="${artists.lastName}"></td>
                         <td th:text="${artists.country}"></td>
                         <td class="col-lg-3 col-lg-offset-3>">
-                            <a class="btn btn-info" th:href="@{/deleteArtist(id=${artists.id})}">Albums</a>
+                            <a class="btn btn-info" th:href="@{/albums(artistName=${artists.stageName})}">Albums</a>
                         </td>
                         <td class="col-lg-2 col-lg-offset-3">
                             <button class="btn btn-outline-warning" type="submit" onclick="window.location='/editArtist(id=${artists.id},firstName=${artists.firstName},lastName=${artists.lastName}),stageName=${artists.stageName}),country=${artists.country}'">Edit artist</button>

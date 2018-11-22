@@ -47,14 +47,12 @@ public class ArtistsController {
 
     @RequestMapping(value = "/addArtist", method = RequestMethod.GET)
     public String addArtistPage(Model model) {
-        model.addAttribute("artist", new Artist());
         return "addArtist";
     }
 
     @RequestMapping(value = "/deleteArtist", method = RequestMethod.GET)
     public String deleteArtist(@RequestParam Integer id,
                                Model model) {
-        System.out.println("KEKEK");
         artistRepository.deleteById(id);
         return "redirect:/artists";
     }
