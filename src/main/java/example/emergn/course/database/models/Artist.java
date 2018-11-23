@@ -16,44 +16,20 @@ public class Artist {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Column
     private String firstName;
+    @Column
     private String lastName;
+    @Column
     private String stageName;
+
+    @Column
     @Enumerated(EnumType.STRING)
     @Type(type = "pgsql_enum")
     private Countries country;
 
-    /*@OneToMany
-    private List<Album> albums;*/
-
     public Artist() {
         super();
-    }
-
-    public Artist(String firstName,
-                  String lastName,
-                  String stageName,
-                  Countries country) {
-        super();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.stageName = stageName;
-        this.country = country;
-
-    }
-
-    public Artist(Integer id,
-                       String firstName,
-                       String lastName,
-                       String stageName,
-                       Countries country) {
-        super();
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.stageName = stageName;
-        this.country = country;
-
     }
 
     public Integer getId() {

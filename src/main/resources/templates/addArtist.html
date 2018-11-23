@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-7 col-sm-6">
                 <h1>Add an artist</h1>
-                <form th:action="@{/createArtist}" method="get" enctype="multipart/form-data"
+                <form th:action="@{/createArtist}" method="post" enctype="multipart/form-data"
                       class="form-horizontal">
                     <fieldset>
                         <div class="form-group">
@@ -60,7 +60,15 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Country</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="country">
+                                <select type="text" class="form-control" name="country">
+                                    <option>RUSSIA</option>
+                                    <option>BRITAIN</option>
+                                    <option>USA</option>
+                                    <option>FRANCE</option>
+                                    <option>GERMANY</option>
+                                    <option>UKRAINE</option>
+                                    <option>SWEDEN</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">

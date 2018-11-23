@@ -2,7 +2,7 @@ package example.emergn.course.database.models;
 
 
 import javax.persistence.*;
-
+//писать @column
 @Entity
 @Table(name = "albums")
 public class Album {

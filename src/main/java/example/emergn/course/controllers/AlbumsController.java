@@ -2,7 +2,6 @@ package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Album;
 import example.emergn.course.database.repo.AlbumRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +9,12 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class AlbumsController {
-    @Autowired
-    AlbumRepository albumRepository;
 
+    private AlbumRepository albumRepository;
+
+    public AlbumsController(AlbumRepository albumRepository) {
+        this.albumRepository = albumRepository;
+    }
 
     @RequestMapping(value = "/albums")
     public String albumsByName(@RequestParam String artistName,
@@ -53,23 +55,5 @@ public class AlbumsController {
                             Model model) {
 
     }
-
-    @RequestMapping(value = "/getAlbumByName", method = RequestMethod.POST)
-    public void getAlbumByName(@PathVariable String name,
-                               Model model) {
-    }
-
-    @RequestMapping(value = "/getAlbumsByArtist", method = RequestMethod.POST)
-    public void getAlbumsByArtist(@PathVariable String stageName,
-                                  Model model) {
-    }
-
-//    @RequestMapping(value = "/getAlbumsByArtistAndName", method = RequestMethod.POST)
-//    public void getAlbumsByArtistAndName(@PathVariable String name,
-//                                           @PathVariable String stageName,
-//                                           Model model) {
-//
-//    }
-
 }
 
