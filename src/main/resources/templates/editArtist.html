@@ -35,32 +35,33 @@
     <div class="page-header" id="banner">
         <div class="row">
             <div class="col-lg-6 col-md-7 col-sm-6">
-                <h1>editing</h1>
-                <form th:action="@{/editArt}" method="get" enctype="multipart/form-data"
+                <h1>Edit Artist</h1>
+                <form th:object="${origin}" th:action="@{/editArt}" method="get" enctype="multipart/form-data"
                       class="form-horizontal">
                     <fieldset>
+                        <input type="hidden" th:value="${origin.id}" name="id">
                         <div class="form-group">
                             <label class="col-lg-3 control-label">First name</label>
                             <div class="col-lg-9">
-                                <input value=${artists.firstName} type="text" class="form-control" name="firstName">
+                                <input type="text" th:value="${origin.firstName}" class="form-control" name="firstName">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Second name</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="lastName">
+                                <input th:value="${origin.lastName}" type="text" class="form-control" name="lastName">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Stage name</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="stageName">
+                                <input th:value="${origin.stageName}" type="text" class="form-control" name="stageName">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Country</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="country">
+                                <input th:value="${origin.country}" type="text" class="form-control" name="country">
                             </div>
                         </div>
                         <div class="form-group">

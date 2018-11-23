@@ -8,10 +8,15 @@
 </head>
 <script type="text/javascript">
     function confDel(){if (confirm('Are you sure?'))}
+
+
+
+
 </script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Artists base by Berlioz&Kot</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+            aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -65,7 +70,12 @@
                             <a class="btn btn-info" th:href="@{/albums(artistName=${artists.stageName})}">Albums</a>
                         </td>
                         <td class="col-lg-2 col-lg-offset-3">
-                            <button class="btn btn-outline-warning" type="submit" onclick="window.location='/editArtist(id=${artists.id},firstName=${artists.firstName},lastName=${artists.lastName}),stageName=${artists.stageName}),country=${artists.country}'">Edit artist</button>
+                            <a class="btn btn-outline-warning" th:href="@{/editArtist(id=${artists.id},
+                                                                                      firstName=${artists.firstName},
+                                                                                      lastName=${artists.lastName},
+                                                                                      stageName=${artists.stageName},
+                                                                                      country=${artists.country})}">Edit
+                            </a>
                         </td>
                         <td class="col-lg-2 col-lg-offset-3">
                             <a class="btn btn-outline-danger" th:href="@{/deleteArtist(id=${artists.id})}">Delete</a>

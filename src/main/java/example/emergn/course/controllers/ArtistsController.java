@@ -41,7 +41,7 @@ public class ArtistsController {
                                  @RequestParam String stageName,
                                  @RequestParam String country,
                                  Model model) {
-        model.addAttribute("artist", new Artist(id, firstName, lastName, stageName, Countries.valueOf(country.toUpperCase())));
+        model.addAttribute("origin", new Artist(id, firstName, lastName, stageName, Countries.valueOf(country.toUpperCase())));
         return "editArtist";
     }
 
