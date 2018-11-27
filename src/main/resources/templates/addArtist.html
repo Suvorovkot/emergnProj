@@ -61,13 +61,10 @@
                             <label class="col-lg-3 control-label">Country</label>
                             <div class="col-lg-9">
                                 <select type="text" class="form-control" name="country">
-                                    <option>RUSSIA</option>
-                                    <option>BRITAIN</option>
-                                    <option>USA</option>
-                                    <option>FRANCE</option>
-                                    <option>GERMANY</option>
-                                    <option>UKRAINE</option>
-                                    <option>SWEDEN</option>
+                                    <option th:each="country : ${T(example.emergn.course.database.models.Countries).values()}"
+                                            th:value="${country}"
+                                            th:text="${country}">
+                                    </option>
                                 </select>
                             </div>
                         </div>
