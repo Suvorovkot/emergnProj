@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @Controller
 public class AlbumsController {
@@ -16,44 +18,59 @@ public class AlbumsController {
         this.albumRepository = albumRepository;
     }
 
-    @RequestMapping(value = "/albums")
+    @GetMapping(value = "/albums")
     public String albumsByName(@RequestParam String artistName,
                                Model model) {
-
+        // TODO теоретически может не найтись имя, вывести ошибку
         model.addAttribute("albums", albumRepository.findByArtistName(artistName));
         return "albums";
     }
 
     @GetMapping("/addAlbum")
-    public String addAlbumPage() {
+    public String addAlbumPage(@RequestParam String artistName,
+                               Model model) {
+        model.addAttribute("artistName", artistName);
         return "addAlbum";
     }
 
-    @RequestMapping(value = "/createAlbum")
-    public String addAlbum(@RequestParam String name,
-                           @RequestParam Integer year,
-                           @RequestParam Integer numberOfSongs,
-                           @RequestParam String artistName,
+    @PostMapping(value = "/createAlbum")
+    public String addAlbum(@ModelAttribute Album album,
                            Model model) {
-        albumRepository.save(new Album(name, year, numberOfSongs, artistName));
+        albumRepository.save(album);
+        return "redirect:/albums?artistName=" + album.getArtistName();
+
+    }
+
+    @PostMapping(value = "/editAlb")
+    public String editArt(@ModelAttribute Album album,
+                          Model model) {
+        //TODO тут тоже может вылетать SQL - ошибка
+        albumRepository.save(album);
+        return "redirect:/albums?artistName=" + album.getArtistName();
+    }
+
+    //TODO можно попытаться все же получить боди в качестве пост - реквеста, чтобы в базу лишний раз не гонять
+    @GetMapping(value = "/editAlbum")
+    public String editArtistPage(@RequestParam Integer id,
+                                 @RequestParam String artistName,
+                                 Model model) {
+        Optional<Album> album = albumRepository.findById(id);
+        if (album.isPresent()) {
+            model.addAttribute("origin", album.get());
+            return "editAlbum";
+        }
+        //TODO тут должно быть ваше окошко об ошибке (если такого альбом нет)
         return "redirect:/albums?artistName=" + artistName;
 
     }
 
-    @RequestMapping(value = "/updateAlbum", method = RequestMethod.POST)
-    public void updateAlbum(@PathVariable String name,
-                            @PathVariable Integer year,
-                            @PathVariable Integer numberOfSong,
-                            @PathVariable String stageName,
-                            Model model) {
-
-    }
-
-    @RequestMapping(value = "/deleteAlbum", method = RequestMethod.POST)
-    public void deleteAlbum(@PathVariable String name,
-                            @PathVariable String stageName,
-                            Model model) {
-
+    @DeleteMapping(value = "/deleteAlbum")
+    public String deleteAlbum(@RequestParam Integer id,
+                              @RequestParam String artistName,
+                              Model model) {
+        // TODO мало ли тут ошибка выпрыгнет?
+        albumRepository.deleteById(id);
+        return "redirect:/albums?artistName=" + artistName;
     }
 }
 

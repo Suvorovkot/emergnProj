@@ -71,12 +71,4 @@ public class Artist {
     public void setCountry(Countries country) {
         this.country = country;
     }
-
-/*    public List<Album> getAlbums() {
-        return albums;
-    }
-
-    public void setAlbums(List<Album> albums) {
-        this.albums = albums;
-    }*/
 }
