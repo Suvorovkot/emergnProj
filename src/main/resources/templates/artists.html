@@ -101,6 +101,25 @@
         </div>
 
     </div>
+    <div>
+        <ul class="pagination">
+            <li class="page-item disabled">
+                <a class="page-link" href="#">&laquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:href="@{/setPage(pagenum=0)}">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:href="@{/setPage(pagenum=1)}">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:href="@{/setPage(pagenum=2)}">3</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">&raquo;</a>
+            </li>
+        </ul>
+    </div>
 </div>
 
 </body>
