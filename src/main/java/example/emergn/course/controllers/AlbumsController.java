@@ -1,12 +1,10 @@
 package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Album;
-import example.emergn.course.database.models.Artist;
-import example.emergn.course.database.models.Pager;
+import example.emergn.course.view.Pager;
 import example.emergn.course.database.repo.AlbumRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,15 +34,12 @@ public class AlbumsController {
         // TODO теоретически может не найтись имя, вывести ошибку
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
-        Page<Album> albumsPage = albumRepository.findAll(new PageRequest(evalPage, evalPageSize));
+        Page<Album> albumsPage = albumRepository.findByArtistName(artistName, new PageRequest(evalPage, evalPageSize));
+        model.addAttribute("artistName", artistName);
         model.addAttribute("albumsPage", albumsPage);
-        // evaluate page size
         model.addAttribute("selectedPageSize", evalPageSize);
-        // add page sizes
         model.addAttribute("pageSizes", PAGE_SIZES);
-        // add pager
         model.addAttribute("pager", new Pager(albumsPage.getTotalPages(), albumsPage.getNumber(), BUTTONS_TO_SHOW));
-        model.addAttribute("albums", albumRepository.findByArtistName(artistName));
         return "albums";
     }
 

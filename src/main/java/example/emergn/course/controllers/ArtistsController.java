@@ -1,11 +1,10 @@
 package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Artist;
-import example.emergn.course.database.models.Pager;
+import example.emergn.course.view.Pager;
 import example.emergn.course.database.repo.ArtistRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -77,11 +76,8 @@ public class ArtistsController {
 
 
         model.addAttribute("artistsPage", artistsPage);
-        // evaluate page size
         model.addAttribute("selectedPageSize", evalPageSize);
-        // add page sizes
         model.addAttribute("pageSizes", PAGE_SIZES);
-        // add pager
         model.addAttribute("pager", new Pager(artistsPage.getTotalPages(), artistsPage.getNumber(), BUTTONS_TO_SHOW));
 
         return "artists";

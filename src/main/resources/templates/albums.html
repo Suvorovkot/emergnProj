@@ -94,13 +94,6 @@
                             </td>
                         </form>
 
-                        <!--<form th:action="@{/deleteAlbum}" th:method="delete" enctype="multipart/form-data">
-                            <input type="hidden" th:value="${album.id}" name="id">
-                            <input type="hidden" th:value="${album.artistName}" name="artistName">
-                            <td class="col-lg-2 col-lg-offset-3">
-                                <input type="submit" class="btn btn-outline-danger" value="Delete"/>
-                            </td>
-                        </form>-->
                         <td>
                             <button onClick="confirmDelete(this.id)" th:id="${album.id} "
                                     class="btn btn-outline-danger">Delete
@@ -109,12 +102,6 @@
                     </tr>
                     </tbody>
                 </table>
-                <!--<form th:action="@{/addAlbum}" method="get" enctype="multipart/form-data">
-                    <td class="col-lg-2 col-lg-offset-3">
-                        <input type="hidden" th:value="${album.artistName}" name="artistName">
-                        <input type="submit" class="btn btn-outline-default" value="Add Album"/>
-                    </td>
-                </form>-->
                 <div class="row">
                     <!--<div class="form-group col-md-1">
                         <select type="submit" class="form-control pagination" id="pageSizeSelect">
@@ -124,32 +111,31 @@
                         </select>
                     </div>-->
                     <div th:if="${albumsPage.totalPages != 1}">
-
                         <ul class="pagination">
                             <li th:class="${albumsPage.number == 0} ? disabled"><a
                                     class="page-link"
-                                    th:href="@{/albums(album.artistName, pageSize=${selectedPageSize}, page=1)}">&lAarr;</a>
+                                    th:href="@{/albums(album.artistName, pageSize=${selectedPageSize}, page=1, artistName=${artistName})}">&lAarr;</a>
                             </li>
                             <li th:class="${albumsPage.number == 0} ? disabled"><a
                                     class="page-link"
-                                    th:href="@{/albums(album.artistName, pageSize=${selectedPageSize}, page=${albumsPage.number})}">&laquo;</a>
+                                    th:href="@{/albums(album.artistName, pageSize=${selectedPageSize}, page=${albumsPage.number}, artistName=${artistName})}">&laquo;</a>
                             </li>
                             <li
                                     th:class="${albumsPage.number == (page - 1)} ? 'active pointer-disabled'"
                                     th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
                                 <a class="page-link"
-                                   th:href="@{/albums(album.artistName, pageSize=${selectedPageSize}, page=${page})}"
+                                   th:href="@{/albums(album.artistName, pageSize=${selectedPageSize}, page=${page}, artistName=${artistName})}"
                                    th:text="${page}"></a>
                             </li>
                             <li
                                     th:class="${albumsPage.number + 1 == albumsPage.totalPages} ? disabled">
                                 <a class="page-link"
-                                   th:href="@{/albums(album.artistName, pageSize=${selectedPageSize}, page=${albumsPage.number + 2})}">&raquo;</a>
+                                   th:href="@{/albums(album.artistName, pageSize=${selectedPageSize}, page=${albumsPage.number + 2}, artistName=${artistName})}">&raquo;</a>
                             </li>
                             <li
                                     th:class="${albumsPage.number + 1 == albumsPage.totalPages} ? disabled">
                                 <a class="page-link"
-                                   th:href="@{/albums(album.artistName, pageSize=${selectedPageSize}, page=${albumsPage.totalPages})}">&rAarr;</a>
+                                   th:href="@{/albums(album.artistName, pageSize=${selectedPageSize}, page=${albumsPage.totalPages}, artistName=${artistName})}">&rAarr;</a>
                             </li>
                         </ul>
                     </div>

@@ -1,4 +1,4 @@
-package example.emergn.course.database.models;
+package example.emergn.course.view;
 
 public class Pager{
 
