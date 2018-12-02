@@ -11,7 +11,23 @@
                 window.location = '/artists/deleteArtist/' + this_id;
                 }
         };
+
+
+
     </script>
+    <style>
+    .pagination-centered {
+        text-align: center;
+    }
+    .disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+    .pointer-disabled {
+        pointer-events: none;
+    }
+
+    </style>
 
 </head>
 
@@ -63,32 +79,36 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="artists : ${artists}">
-                        <td id="stageName" th:text="${artists.stageName}"></td>
-                        <td th:text="${artists.firstName}"></td>
-                        <td th:text="${artists.lastName}"></td>
-                        <td th:text="${artists.country}"></td>
+                    <tr th:each="artist : ${artistsPage}">
+                        <td id="stageName" th:text="${artist.stageName}"></td>
+                        <td th:text="${artist.firstName}"></td>
+                        <td th:text="${artist.lastName}"></td>
+                        <td th:text="${artist.country}"></td>
                         <td class="col-lg-3 col-lg-offset-3>">
                         </td>
 
                         <td class="col-lg-3 col-lg-offset-3>">
-                            <a class="btn btn-info" th:href="@{/albums(artistName=${artists.stageName})}">Albums</a>
+                            <a class="btn btn-info" th:href="@{/albums(artistName=${artist.stageName})}">Albums</a>
                         </td>
 
                         <form th:action="@{/addAlbum}" method="get" enctype="multipart/form-data">
                             <td class="col-lg-2 col-lg-offset-3">
-                                <input type="hidden" th:value="${artists.stageName}" name="artistName">
+                                <input type="hidden" th:value="${artist.stageName}" name="artistName">
                                 <input type="submit" class="btn btn-outline-default" value="Add Album"/>
                             </td>
                         </form>
 
                         <form th:action="@{/editArtist}" method="get" enctype="multipart/form-data">
                             <td class="col-lg-2 col-lg-offset-3">
-                                <input type="hidden" th:value="${artists.id}" name="id">
+                                <input type="hidden" th:value="${artist.id}" name="id">
                                 <input type="submit" class="btn btn-outline-warning" value="Edit"/>
                             </td>
                         </form>
-                        <td><button onClick="confirmDelete(this.id)" th:id="${artists.id}" class="btn btn-outline-danger">Delete</button></td>
+                        <td>
+                            <button onClick="confirmDelete(this.id)" th:id="${artist.id}"
+                                    class="btn btn-outline-danger">Delete
+                            </button>
+                        </td>
                         <!--<form th:action="@{/deleteArtist}" th:method="delete" enctype="multipart/form-data">
                             <input type="hidden" th:value="${artists.id}" name="id">
                             <td class="col-lg-2 col-lg-offset-3">
@@ -98,36 +118,61 @@
                     </tr>
                     </tbody>
                 </table>
+                <div class="row">
+                    <!--<div class="form-group col-md-1">
+                        <select type="submit" class="form-control pagination" id="pageSizeSelect">
+                            <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}"
+                                    th:value="${pageSize}"
+                                    th:selected="${pageSize} == ${selectedPageSize}"></option>
+                        </select>
+                    </div>-->
+                    <div th:if="${artistsPage.totalPages != 1}">
+                        <ul class="pagination">
+                            <li th:class="${artistsPage.number == 0} ? disabled"><a
+                                    class="page-link"
+                                    th:href="@{/artists(pageSize=${selectedPageSize}, page=1)}">&lAarr;</a>
+                            </li>
+                            <li th:class="${artistsPage.number == 0} ? disabled"><a
+                                    class="page-link"
+                                    th:href="@{/artists(pageSize=${selectedPageSize}, page=${artistsPage.number})}">&laquo;</a>
+                            </li>
+                            <li
+                                    th:class="${artistsPage.number == (page - 1)} ? 'active pointer-disabled'"
+                                    th:each="page : ${#numbers.sequence(pager.startPage, pager.endPage)}">
+                                <a class="page-link"
+                                   th:href="@{/artists(pageSize=${selectedPageSize}, page=${page})}"
+                                   th:text="${page}"></a>
+                            </li>
+                            <li
+                                    th:class="${artistsPage.number + 1 == artistsPage.totalPages} ? disabled">
+                                <a class="page-link"
+                                   th:href="@{/artists(pageSize=${selectedPageSize}, page=${artistsPage.number + 2})}">&raquo;</a>
+                            </li>
+                            <li
+                                    th:class="${artistsPage.number + 1 == artistsPage.totalPages} ? disabled">
+                                <a class="page-link"
+                                   th:href="@{/artists(pageSize=${selectedPageSize}, page=${artistsPage.totalPages})}">&rAarr;</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-
-    </div>
-    <div>
-        <ul class="pagination">
-            <li th:class="page-item ? disabled">
-                <a class="page-link" th:href="@{/previousPage}">&laquo;</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" th:href="@{/setPage(pagenum=0)}">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" th:href="@{/setPage(pagenum=1)}">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" th:href="@{/setPage(pagenum=2)}">3</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" th:href="@{/setPage(pagenum=3)}">4</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" th:href="@{/setPage(pagenum=4)}">5</a>
-            </li>
-            <li class="page-item ? disabled">
-                <a class="page-link" th:href="@{/nextPage}">&raquo;</a>
-            </li>
-        </ul>
     </div>
 </div>
+</div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function() {
+        changePageAndSize();
+    });
+    function changePageAndSize() {
+        $('#pageSizeSelect').change(function(evt) {
+            window.location.replace("/?pageSize=" + this.value + "&page=1");
+        });
+    }
+    /*]]>*/
 
+</script>
 </body>
 </html>
