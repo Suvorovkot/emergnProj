@@ -1,7 +1,10 @@
 package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Album;
+import example.emergn.course.database.models.Artist;
+import example.emergn.course.database.models.Pager;
 import example.emergn.course.database.repo.AlbumRepository;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -15,7 +18,11 @@ import java.util.Optional;
 public class AlbumsController {
 
     private AlbumRepository albumRepository;
-    private Pageable pageable;
+    private static final int BUTTONS_TO_SHOW = 3;
+    private static final int INITIAL_PAGE = 0;
+    private static final int INITIAL_PAGE_SIZE = 5;
+    private static final int[] PAGE_SIZES = {5, 10};
+
 
     public AlbumsController(AlbumRepository albumRepository) {
         this.albumRepository = albumRepository;
@@ -23,8 +30,20 @@ public class AlbumsController {
 
     @GetMapping(value = "/albums")
     public String albumsByName(@RequestParam String artistName,
+                               @RequestParam("pageSize") Optional<Integer> pageSize,
+                               @RequestParam("page") Optional<Integer> page,
                                Model model) {
         // TODO теоретически может не найтись имя, вывести ошибку
+        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
+        Page<Album> albumsPage = albumRepository.findAll(new PageRequest(evalPage, evalPageSize));
+        model.addAttribute("albumsPage", albumsPage);
+        // evaluate page size
+        model.addAttribute("selectedPageSize", evalPageSize);
+        // add page sizes
+        model.addAttribute("pageSizes", PAGE_SIZES);
+        // add pager
+        model.addAttribute("pager", new Pager(albumsPage.getTotalPages(), albumsPage.getNumber(), BUTTONS_TO_SHOW));
         model.addAttribute("albums", albumRepository.findByArtistName(artistName));
         return "albums";
     }
@@ -67,38 +86,13 @@ public class AlbumsController {
 
     }
 
-    @DeleteMapping(value = "/deleteAlbum")
-    public String deleteAlbum(@RequestParam Integer id,
-                              @RequestParam String artistName,
-                              Model model) {
+    @GetMapping(value = "/albums/deleteAlbum/{albumId}")
+    public String deleteAlbum(@PathVariable("albumId") String albumId) {
         // TODO мало ли тут ошибка выпрыгнет?
+        Integer id = Integer.parseInt(albumId);
         albumRepository.deleteById(id);
-        return "redirect:/albums?artistName=" + artistName;
+       return "redirect:/artists";
     }
 
-//    @GetMapping(value = "/setPage")
-//    public String setPage(@RequestParam String artistName,
-//                          @RequestParam Integer pagenum,
-//                          Model model) {
-//        pageable = PageRequest.of(pagenum, 5);
-//        model.addAttribute("albums", albumRepository.findByArtistName(artistName));
-//        return "albums";
-//    }
-//
-//    @GetMapping(value = "/nextPage")
-//    public String nextPage(@RequestParam String artistName,
-//                           Model model) {
-//        pageable = albumRepository.findAll(pageable).nextPageable();
-//        model.addAttribute("albums", albumRepository.findAll(pageable));
-//        return "albums";
-//    }
-//
-//    @GetMapping(value = "/previousPage")
-//    public String previousPage(@RequestParam String artistName,
-//                               Model model) {
-//        pageable = albumRepository.findAll(pageable).previousPageable();
-//        model.addAttribute("albums", albumRepository.findAll(pageable));
-//        return "albums";
-//    }
 }
 

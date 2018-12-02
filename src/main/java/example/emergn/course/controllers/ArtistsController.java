@@ -73,7 +73,6 @@ public class ArtistsController {
                              @RequestParam("page") Optional<Integer> page) {
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
-        System.out.println("firp" + evalPage + "pagsize" +evalPageSize);
         Page<Artist> artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
 
 

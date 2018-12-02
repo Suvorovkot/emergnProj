@@ -27,7 +27,6 @@ public class Pager{
             setStartPage(currentPage - halfPagesToShow);
             setEndPage(currentPage + halfPagesToShow);
         }
-        System.out.println("I've made a page");
     }
 
     public int getButtonsToShow() {
