@@ -2,6 +2,9 @@ package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Artist;
 import example.emergn.course.database.repo.ArtistRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +15,7 @@ import java.util.Optional;
 public class ArtistsController {
 
     private ArtistRepository artistRepository;
+    private Pageable pageable;
 
     public ArtistsController(ArtistRepository artistRepository) {
         this.artistRepository = artistRepository;
@@ -51,18 +55,39 @@ public class ArtistsController {
         return "addArtist";
     }
 
-    @DeleteMapping(value = "/deleteArtist")
-    public String deleteArtist(@RequestParam Integer id,
-                               Model model) {
+    @GetMapping(value = "/artists/deleteArtist/{artistId}")
+    public String deleteArtist(@PathVariable("artistId") String artistId) {
         //TODO если не нашли айдишку (мало ли), выводим ошибку
+        Integer id = Integer.parseInt(artistId);
         artistRepository.deleteById(id);
         return "redirect:/artists";
     }
 
     @GetMapping("artists")
     public String getArtists(Model model) {
-        model.addAttribute("artists", artistRepository.findAll());
+        pageable = PageRequest.of(0, 5);
+        model.addAttribute("artists", artistRepository.findAll(pageable));
         return "artists";
     }
+    @GetMapping(value = "/setPage")
+    public String setPage(@RequestParam Integer pagenum,
+                           Model model) {
+        pageable = PageRequest.of(pagenum, 5);
+        model.addAttribute("artists", artistRepository.findAll(pageable));
+        return "artists";
+    }
+    @GetMapping(value = "/nextPage")
+    public String nextPage(Model model) {
+        pageable = artistRepository.findAll(pageable).nextPageable();
+        model.addAttribute("artists", artistRepository.findAll(pageable));
+        return "artists";
+    }
+    @GetMapping(value = "/previousPage")
+    public String previousPage(Model model) {
+        pageable = artistRepository.findAll(pageable).previousPageable();
+        model.addAttribute("artists", artistRepository.findAll(pageable));
+        return "artists";
+    }
+
 
 }

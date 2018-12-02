@@ -2,6 +2,8 @@ package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Album;
 import example.emergn.course.database.repo.AlbumRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.Optional;
 public class AlbumsController {
 
     private AlbumRepository albumRepository;
+    private Pageable pageable;
 
     public AlbumsController(AlbumRepository albumRepository) {
         this.albumRepository = albumRepository;
@@ -72,5 +75,30 @@ public class AlbumsController {
         albumRepository.deleteById(id);
         return "redirect:/albums?artistName=" + artistName;
     }
+
+//    @GetMapping(value = "/setPage")
+//    public String setPage(@RequestParam String artistName,
+//                          @RequestParam Integer pagenum,
+//                          Model model) {
+//        pageable = PageRequest.of(pagenum, 5);
+//        model.addAttribute("albums", albumRepository.findByArtistName(artistName));
+//        return "albums";
+//    }
+//
+//    @GetMapping(value = "/nextPage")
+//    public String nextPage(@RequestParam String artistName,
+//                           Model model) {
+//        pageable = albumRepository.findAll(pageable).nextPageable();
+//        model.addAttribute("albums", albumRepository.findAll(pageable));
+//        return "albums";
+//    }
+//
+//    @GetMapping(value = "/previousPage")
+//    public String previousPage(@RequestParam String artistName,
+//                               Model model) {
+//        pageable = albumRepository.findAll(pageable).previousPageable();
+//        model.addAttribute("albums", albumRepository.findAll(pageable));
+//        return "albums";
+//    }
 }
 
