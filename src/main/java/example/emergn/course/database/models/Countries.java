@@ -9,5 +9,11 @@ public enum Countries implements Serializable {
     FRANCE,
     GERMANY,
     SWEDEN,
-    UKRAINE;
+    KANNADA,
+    POLAND,
+    UKRAINE,
+    AUSTRALIA,
+    OTHER;
+
+
 }
