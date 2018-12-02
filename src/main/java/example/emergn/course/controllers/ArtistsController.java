@@ -1,6 +1,7 @@
 package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Artist;
+import example.emergn.course.database.models.Pager;
 import example.emergn.course.database.repo.ArtistRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +16,10 @@ import java.util.Optional;
 public class ArtistsController {
 
     private ArtistRepository artistRepository;
-    private Pageable pageable;
+    private static final int BUTTONS_TO_SHOW = 3;
+    private static final int INITIAL_PAGE = 0;
+    private static final int INITIAL_PAGE_SIZE = 5;
+    private static final int[] PAGE_SIZES = {5, 10};
 
     public ArtistsController(ArtistRepository artistRepository) {
         this.artistRepository = artistRepository;
@@ -64,30 +68,24 @@ public class ArtistsController {
     }
 
     @GetMapping("artists")
-    public String getArtists(Model model) {
-        pageable = PageRequest.of(0, 5);
-        model.addAttribute("artists", artistRepository.findAll(pageable));
-        return "artists";
-    }
-    @GetMapping(value = "/setPage")
-    public String setPage(@RequestParam Integer pagenum,
-                           Model model) {
-        pageable = PageRequest.of(pagenum, 5);
-        model.addAttribute("artists", artistRepository.findAll(pageable));
-        return "artists";
-    }
-    @GetMapping(value = "/nextPage")
-    public String nextPage(Model model) {
-        pageable = artistRepository.findAll(pageable).nextPageable();
-        model.addAttribute("artists", artistRepository.findAll(pageable));
-        return "artists";
-    }
-    @GetMapping(value = "/previousPage")
-    public String previousPage(Model model) {
-        pageable = artistRepository.findAll(pageable).previousPageable();
-        model.addAttribute("artists", artistRepository.findAll(pageable));
-        return "artists";
-    }
+    public String getArtists(Model model,
+                             @RequestParam("pageSize") Optional<Integer> pageSize,
+                             @RequestParam("page") Optional<Integer> page) {
+        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
+        System.out.println("firp" + evalPage + "pagsize" +evalPageSize);
+        Page<Artist> artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
 
+
+        model.addAttribute("artistsPage", artistsPage);
+        // evaluate page size
+        model.addAttribute("selectedPageSize", evalPageSize);
+        // add page sizes
+        model.addAttribute("pageSizes", PAGE_SIZES);
+        // add pager
+        model.addAttribute("pager", new Pager(artistsPage.getTotalPages(), artistsPage.getNumber(), BUTTONS_TO_SHOW));
+
+        return "artists";
+    }
 
 }
