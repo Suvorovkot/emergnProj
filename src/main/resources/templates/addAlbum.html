@@ -5,6 +5,125 @@
     <title>Add Album</title>
     <link rel="stylesheet" href="/bootstrap.min.css" media="screen"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <script>
+    var MyForm = (function(){
+
+    /* init */
+    var form = document.forms.myForm;
+    var fields = Array.from(form.querySelectorAll('input')); // Массив полей формы
+    var submitBtn = form.querySelector('#submitButton');
+    var resultContainer = document.querySelector('#resultContainer');
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        resultContainer.textContent = '';
+        MyForm.submit();
+    });
+
+    /* public */
+    function validate() {
+        var result = {
+            isValid: true,
+            errorFields: []
+        };
+
+        _checkFields(result);
+        _setClasses(result);
+
+        if(result.errorFields.length) {
+            result.isValid = false;
+            resultContainer.classList.remove('success');
+        }
+
+        return result;
+    }
+
+    function getData() {
+        var fieldsData = {};
+        for (var i = 0; i < fields.length; i++) {
+            var currentField = fields[i];
+            fieldsData[currentField.name] = currentField.value;
+        }
+        return fieldsData;
+    }
+
+
+    function submit() {
+        var validationResult = this.validate();
+        if (validationResult.isValid) {
+            submitBtn.setAttribute('disabled', 'disabled');
+            _sendRequest(form.action, _responseResult); // Ajax запрос
+        }
+    }
+
+    function _checkFields(result){
+        var reForm = { // Регулярки для проверки полей
+            year:/^\+7\([\d]{3}\)[\d]{3}\-[\d]{2}\-[\d]{2}$/,
+            numberOfSongs: /^\+7\([\d]{3}\)[\d]{3}\-[\d]{2}\-[\d]{2}$/
+        };
+        for (var i = 0; i < fields.length; i++) { // Проверка полей в массиве fields
+            var currentField = fields[i];
+            if (!reForm[currentField.name].test(currentField.value))
+                result.errorFields.push(currentField.name);
+        }
+    }
+
+    function _setClasses(result){
+        for(var i = 0; i < fields.length; i++){
+            var currentField = fields[i];
+            if(result.errorFields.indexOf(currentField.name) === -1)
+                currentField.classList.remove('error');
+            else
+                currentField.classList.add('error');
+        }
+    }
+
+    function _sendRequest(url, cb){
+        var oReq = new XMLHttpRequest();
+        oReq.open("GET", url, true);
+        oReq.addEventListener('load', function(){
+            var query = {
+                url: url,
+                response: JSON.parse(this.responseText),
+                callback: cb
+            };
+            cb(query);
+        });
+        oReq.send();
+    }
+
+    function _responseResult(query){
+        switch(query.response.status){
+            case 'success':
+                resultContainer.classList.remove('error');
+                resultContainer.classList.remove('progress');
+                resultContainer.classList.add('success');
+                resultContainer.textContent = 'Success';
+                submitBtn.removeAttribute('disabled');
+                break;
+            case 'error':
+                resultContainer.classList.remove('success');
+                resultContainer.classList.remove('progress');
+                resultContainer.classList.add('error');
+                resultContainer.textContent = query.response.reason;
+                submitBtn.removeAttribute('disabled');
+                break;
+            case 'progress':
+                resultContainer.classList.add('progress');
+                setTimeout(_sendRequest, query.response.timeout, query.url, query.callback);
+        }
+    }
+
+    return {
+        validate: validate,
+        getData: getData,
+        setData: setData,
+        submit: submit
+    }
+})();
+
+    </script>
+
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Artists base by Berlioz&Kot</a>
