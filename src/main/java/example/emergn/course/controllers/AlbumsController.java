@@ -51,16 +51,14 @@ public class AlbumsController {
     }
 
     @PostMapping(value = "/createAlbum")
-    public String addAlbum(@ModelAttribute Album album,
-                           Model model) {
+    public String addAlbum(@ModelAttribute Album album) {
         albumRepository.save(album);
         return "redirect:/albums?artistName=" + album.getArtistName();
 
     }
 
     @PostMapping(value = "/editAlb")
-    public String editArt(@ModelAttribute Album album,
-                          Model model) {
+    public String editArt(@ModelAttribute Album album) {
         //TODO тут тоже может вылетать SQL - ошибка
         albumRepository.save(album);
         return "redirect:/albums?artistName=" + album.getArtistName();
@@ -81,12 +79,12 @@ public class AlbumsController {
 
     }
 
-    @GetMapping(value = "/albums/deleteAlbum/{albumId}")
-    public String deleteAlbum(@PathVariable("albumId") String albumId) {
+    @GetMapping(value = "/deleteAlbum")
+    public String deleteAlbum(@RequestParam Integer albumId,
+                              @RequestParam String artistName) {
         // TODO мало ли тут ошибка выпрыгнет?
-        Integer id = Integer.parseInt(albumId);
-        albumRepository.deleteById(id);
-       return "redirect:/artists";
+        albumRepository.deleteById(albumId);
+       return "redirect:/albums?artistName=" + artistName;
     }
 
 }

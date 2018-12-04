@@ -8,7 +8,7 @@
     <script>
         function confirmDelete(this_id) {
             if(confirm("Are you sure?")) {
-                window.location = '/artists/deleteArtist/' + this_id;
+                window.location = '/deleteArtist?id=' + this_id;
                 }
         };
 

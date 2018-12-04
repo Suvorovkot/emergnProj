@@ -32,8 +32,7 @@ public class ArtistsController {
     }
 
     @PostMapping(value = "/editArt")
-    public String editArt(@ModelAttribute Artist artist,
-                          Model model) {
+    public String editArt(@ModelAttribute Artist artist) {
         //TODO тут тоже может вылетать SQL - ошибка
         artistRepository.save(artist);
         return "redirect:/artists";
@@ -54,14 +53,13 @@ public class ArtistsController {
     }
 
     @GetMapping(value = "/addArtist")
-    public String addArtistPage(Model model) {
+    public String addArtistPage() {
         return "addArtist";
     }
 
-    @GetMapping(value = "/artists/deleteArtist/{artistId}")
-    public String deleteArtist(@PathVariable("artistId") String artistId) {
+    @GetMapping(value = "/deleteArtist")
+    public String deleteArtist(@RequestParam Integer id) {
         //TODO если не нашли айдишку (мало ли), выводим ошибку
-        Integer id = Integer.parseInt(artistId);
         artistRepository.deleteById(id);
         return "redirect:/artists";
     }

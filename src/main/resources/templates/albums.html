@@ -6,9 +6,10 @@
 
     <link rel="stylesheet" href="/bootstrap.min.css" media="screen"/>
     <script>
-        function confirmDelete(this_id) {
+        function confirmDelete(this_id) {    
             if(confirm("Are you sure?")) {
-                window.location = '/albums/deleteAlbum/' + this_id;
+                var artName = document.getElementById("artistName").value;
+                window.location = '/deleteAlbum?albumId=' + this_id + '&artistName=' + artName;
                 }
         };
 
@@ -80,13 +81,15 @@
                         <form th:action="@{/editAlbum}" method="get" enctype="multipart/form-data">
                             <td class="col-lg-2 col-lg-offset-3">
                                 <input type="hidden" th:value="${album.id}" name="id">
-                                <input type="hidden" th:value="${album.artistName}" name="artistName">
+                                <input type="hidden" th:value="${album.artistName}" name="artistName" id = "artistName">
                                 <input type="submit" class="btn btn-outline-warning" value="Edit"/>
                             </td>
                         </form>
 
                         <td>
-                            <button onClick="confirmDelete(this.id)" th:id="${album.id} "
+
+                            <button th:id = "${album.id}"
+                                    onClick="confirmDelete(this.id)"
                                     class="btn btn-outline-danger">Delete
                             </button>
                         </td>
@@ -94,13 +97,6 @@
                     </tbody>
                 </table>
                 <div class="row">
-                    <!--<div class="form-group col-md-1">
-                        <select type="submit" class="form-control pagination" id="pageSizeSelect">
-                            <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}"
-                                    th:value="${pageSize}"
-                                    th:selected="${pageSize} == ${selectedPageSize}"></option>
-                        </select>
-                    </div>-->
                     <div th:if="${albumsPage.totalPages != 1}">
                         <ul class="pagination">
                             <li th:class="${albumsPage.number == 0} ? disabled"><a
