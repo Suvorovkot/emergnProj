@@ -5,6 +5,7 @@
     <title>Add Artist</title>
     <link rel="stylesheet" href="/bootstrap.min.css" media="screen"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
 </head>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Artists base by Berlioz&Kot</a>
@@ -21,9 +22,6 @@
             <li class="nav-item">
                 <a onclick="window.location='/addArtist'" class="nav-link" href="#">Add new artist</a>
             </li>
-            <!--<li class="nav-item">
-                <a onclick="window.location='/addAlbum'" class="nav-link" href="#">Add new album</a>
-            </li>-->
             <li class="nav-item">
                 <a onclick="window.location='/artists'" class="nav-link" href="#">Show artists</a>
             </li>
@@ -42,19 +40,19 @@
                         <div class="form-group">
                             <label class="col-lg-3 control-label">First name</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="firstName">
+                                <input type="text" class="form-control" name="firstName" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Second name</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="lastName">
+                                <input type="text" class="form-control" name="lastName" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-lg-3 control-label">Stage name</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" name="stageName">
+                                <input type="text" class="form-control" name="stageName" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -70,7 +68,8 @@
                         </div>
                         <div class="form-group">
                             <div class="col-lg-12 col-lg-offset-3">
-                                <input type="submit" class="btn btn-info" value="Create"/>
+                                <input type="submit" class="btn btn-info"  value="Create"/>
+
                             </div>
                         </div>
                     </fieldset>

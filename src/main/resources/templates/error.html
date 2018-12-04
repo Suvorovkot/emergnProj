@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="/bootstrap.min.css" media="screen"/>
+    <title>Error</title>
+</head>
+<body>
+<div align="center">
+    <h1>No way, bro</h1>
+    <p class="alert alert-dismissible alert-secondary col-lg-5" th:text="${message}"></p>
+    <input class="btn btn-outline-info col-lg-3" type="button" onclick="history.back();" value="Back"/>
+</div>
+</body>
+</html>
