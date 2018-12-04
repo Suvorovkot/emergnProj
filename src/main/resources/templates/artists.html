@@ -50,10 +50,6 @@
                 <a onclick="window.location='/artists'" class="nav-link" href="#">Show artists</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-        </form>
     </div>
 </nav>
 <body>
@@ -106,23 +102,10 @@
                                     class="btn btn-outline-danger">Delete
                             </button>
                         </td>
-                        <!--<form th:action="@{/deleteArtist}" th:method="delete" enctype="multipart/form-data">
-                            <input type="hidden" th:value="${artists.id}" name="id">
-                            <td class="col-lg-2 col-lg-offset-3">
-                                <input type="submit" class="btn btn-outline-danger" value="Delete"/>
-                            </td>
-                        </form>-->
                     </tr>
                     </tbody>
                 </table>
                 <div class="row">
-                    <!--<div class="form-group col-md-1">
-                        <select type="submit" class="form-control pagination" id="pageSizeSelect">
-                            <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}"
-                                    th:value="${pageSize}"
-                                    th:selected="${pageSize} == ${selectedPageSize}"></option>
-                        </select>
-                    </div>-->
                     <div th:if="${artistsPage.totalPages != 1}">
                         <ul class="pagination">
                             <li th:class="${artistsPage.number == 0} ? disabled"><a
@@ -158,18 +141,5 @@
     </div>
 </div>
 </div>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    $(document).ready(function() {
-        changePageAndSize();
-    });
-    function changePageAndSize() {
-        $('#pageSizeSelect').change(function(evt) {
-            window.location.replace("/?pageSize=" + this.value + "&page=1");
-        });
-    }
-    /*]]>*/
-
-</script>
 </body>
 </html>
