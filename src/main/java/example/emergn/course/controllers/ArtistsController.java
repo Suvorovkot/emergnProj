@@ -66,20 +66,38 @@ public class ArtistsController {
         return "redirect:/artists";
     }
 
-    @GetMapping("artists")
-    public String getArtists(Model model,
+//    @GetMapping("artists")
+//    public String getArtists(Model model,
+//                             @RequestParam("pageSize") Optional<Integer> pageSize,
+//                             @RequestParam("page") Optional<Integer> page) {
+//        int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
+//        int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
+//        Page<Artist> artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
+//
+//        model.addAttribute("artistsPage", artistsPage);
+//        model.addAttribute("selectedPageSize", evalPageSize);
+//        model.addAttribute("pageSizes", PAGE_SIZES);
+//        model.addAttribute("pager", new Pager(artistsPage.getTotalPages(), artistsPage.getNumber(), BUTTONS_TO_SHOW));
+//
+//        return "artists";
+//    }
+
+    @RequestMapping(value = "artists", method = RequestMethod.GET)
+    public String getArtists(@RequestParam(value = "stageName", required = false) String stageName,
                              @RequestParam("pageSize") Optional<Integer> pageSize,
-                             @RequestParam("page") Optional<Integer> page) {
+                             @RequestParam("page") Optional<Integer> page,
+                             Model model) {
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
         Page<Artist> artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
-
-
+        if (stageName != null) {
+            artistsPage = artistRepository.findByStageName(stageName, new PageRequest(evalPage, evalPageSize));
+        }
+        model.addAttribute("stageName", stageName);
         model.addAttribute("artistsPage", artistsPage);
         model.addAttribute("selectedPageSize", evalPageSize);
         model.addAttribute("pageSizes", PAGE_SIZES);
         model.addAttribute("pager", new Pager(artistsPage.getTotalPages(), artistsPage.getNumber(), BUTTONS_TO_SHOW));
-
         return "artists";
     }
 
