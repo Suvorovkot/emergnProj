@@ -70,20 +70,32 @@ public class ArtistsController {
 
     @GetMapping("artists")
     public String getArtists(Model model,
-                             @RequestParam Optional<Integer> pageSize,
-                             @RequestParam Optional<Integer> page,
+                             @RequestParam(value = "stageName", required = false) String stageName,
+                             @RequestParam("pageSize") Optional<Integer> pageSize,
+                             @RequestParam("page") Optional<Integer> page,
                              @RequestParam Optional<String> sortBy) {
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
         Page<Artist> artistsPage;
+
+        model.addAttribute("stageName", stageName);
         if (sortBy.isPresent()) {
             Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, sortBy.get()));
-            artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize, sort));
+            if (stageName != null) {
+                artistsPage = artistRepository.findByStageName(stageName, new PageRequest(evalPage, evalPageSize, sort));
+            } else {
+                artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize, sort));
+            }
             model.addAttribute("sortBy", sortBy.get());
         } else {
-            artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
+            if (stageName != null) {
+                artistsPage = artistRepository.findByStageName(stageName, new PageRequest(evalPage, evalPageSize));
+            } else {
+                artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
+            }
         }
 
+        model.addAttribute("stageName", stageName);
         model.addAttribute("artistsPage", artistsPage);
         model.addAttribute("selectedPageSize", evalPageSize);
         model.addAttribute("pageSizes", PAGE_SIZES);
