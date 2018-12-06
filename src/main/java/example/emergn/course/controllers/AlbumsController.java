@@ -1,13 +1,16 @@
 package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Album;
-import example.emergn.course.view.Pager;
 import example.emergn.course.database.repo.AlbumRepository;
+import example.emergn.course.view.Pager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -28,10 +31,9 @@ public class AlbumsController {
 
     @GetMapping(value = "/albums")
     public String albumsByName(@RequestParam String artistName,
-                               @RequestParam("pageSize") Optional<Integer> pageSize,
-                               @RequestParam("page") Optional<Integer> page,
+                               @RequestParam Optional<Integer> pageSize,
+                               @RequestParam Optional<Integer> page,
                                Model model) {
-        // TODO теоретически может не найтись имя, вывести ошибку
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
         Page<Album> albumsPage = albumRepository.findByArtistName(artistName, new PageRequest(evalPage, evalPageSize));
@@ -59,12 +61,11 @@ public class AlbumsController {
 
     @PostMapping(value = "/editAlb")
     public String editArt(@ModelAttribute Album album) {
-        //TODO тут тоже может вылетать SQL - ошибка
         albumRepository.save(album);
         return "redirect:/albums?artistName=" + album.getArtistName();
     }
 
-    //TODO можно попытаться все же получить боди в качестве пост - реквеста, чтобы в базу лишний раз не гонять
+
     @GetMapping(value = "/editAlbum")
     public String editArtistPage(@RequestParam Integer id,
                                  @RequestParam String artistName,
@@ -74,7 +75,6 @@ public class AlbumsController {
             model.addAttribute("origin", album.get());
             return "editAlbum";
         }
-        //TODO тут должно быть ваше окошко об ошибке (если такого альбом нет)
         return "redirect:/albums?artistName=" + artistName;
 
     }
@@ -82,9 +82,8 @@ public class AlbumsController {
     @GetMapping(value = "/deleteAlbum")
     public String deleteAlbum(@RequestParam Integer albumId,
                               @RequestParam String artistName) {
-        // TODO мало ли тут ошибка выпрыгнет?
         albumRepository.deleteById(albumId);
-       return "redirect:/albums?artistName=" + artistName;
+        return "redirect:/albums?artistName=" + artistName;
     }
 
 }

@@ -1,13 +1,16 @@
 package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Artist;
-import example.emergn.course.view.Pager;
 import example.emergn.course.database.repo.ArtistRepository;
+import example.emergn.course.view.Pager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -26,19 +29,16 @@ public class ArtistsController {
 
     @PostMapping(value = "/createArtist")
     public String addArtist(@ModelAttribute Artist artist) {
-        //TODO тут должно быть сообщение об ошибке
         artistRepository.save(artist);
         return "redirect:/artists";
     }
 
     @PostMapping(value = "/editArt")
     public String editArt(@ModelAttribute Artist artist) {
-        //TODO тут тоже может вылетать SQL - ошибка
         artistRepository.save(artist);
         return "redirect:/artists";
     }
 
-    //TODO можно попытаться все же получить боди в качестве пост - реквеста, чтобы в базу лишний раз не гонять
     @GetMapping(value = "/editArtist")
     public String editArtistPage(@RequestParam Integer id,
                                  Model model) {
@@ -47,7 +47,6 @@ public class ArtistsController {
             model.addAttribute("origin", artist.get());
             return "editArtist";
         }
-        //TODO тут должно быть ваше окошко об ошибке (если такого артиста нет)
         return "redirect:/artists";
 
     }
@@ -59,15 +58,14 @@ public class ArtistsController {
 
     @GetMapping(value = "/deleteArtist")
     public String deleteArtist(@RequestParam Integer id) {
-        //TODO если не нашли айдишку (мало ли), выводим ошибку
         artistRepository.deleteById(id);
         return "redirect:/artists";
     }
 
     @GetMapping("artists")
     public String getArtists(Model model,
-                             @RequestParam("pageSize") Optional<Integer> pageSize,
-                             @RequestParam("page") Optional<Integer> page) {
+                             @RequestParam Optional<Integer> pageSize,
+                             @RequestParam Optional<Integer> page) {
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
         Page<Artist> artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
