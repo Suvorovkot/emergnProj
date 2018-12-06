@@ -1,13 +1,17 @@
 package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Artist;
-import example.emergn.course.view.Pager;
 import example.emergn.course.database.repo.ArtistRepository;
+import example.emergn.course.view.Pager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -66,12 +70,19 @@ public class ArtistsController {
 
     @GetMapping("artists")
     public String getArtists(Model model,
-                             @RequestParam("pageSize") Optional<Integer> pageSize,
-                             @RequestParam("page") Optional<Integer> page) {
+                             @RequestParam Optional<Integer> pageSize,
+                             @RequestParam Optional<Integer> page,
+                             @RequestParam Optional<String> sortBy) {
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
-        Page<Artist> artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
-
+        Page<Artist> artistsPage;
+        if (sortBy.isPresent()) {
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, sortBy.get()));
+            artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize, sort));
+            model.addAttribute("sortBy", sortBy.get());
+        } else {
+            artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
+        }
 
         model.addAttribute("artistsPage", artistsPage);
         model.addAttribute("selectedPageSize", evalPageSize);
