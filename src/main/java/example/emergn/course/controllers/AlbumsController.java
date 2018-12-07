@@ -1,13 +1,17 @@
 package example.emergn.course.controllers;
 
 import example.emergn.course.database.models.Album;
-import example.emergn.course.view.Pager;
 import example.emergn.course.database.repo.AlbumRepository;
+import example.emergn.course.view.Pager;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -30,17 +34,33 @@ public class AlbumsController {
     public String albumsByName(@RequestParam String artistName,
                                @RequestParam Optional<Integer> pageSize,
                                @RequestParam Optional<Integer> page,
+                               @RequestParam Optional<String> sortBy,
                                Model model) {
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
+        Page<Album> albumsPage = pageFormer(artistName, sortBy, evalPageSize, evalPage);
 
-        Page<Album> albumsPage = albumRepository.findByArtistName(artistName, new PageRequest(evalPage, evalPageSize));
+        sortBy.ifPresent((sort) -> model.addAttribute("sortBy", sort));
         model.addAttribute("artistName", artistName);
         model.addAttribute("albumsPage", albumsPage);
         model.addAttribute("selectedPageSize", evalPageSize);
         model.addAttribute("pageSizes", PAGE_SIZES);
         model.addAttribute("pager", new Pager(albumsPage.getTotalPages(), albumsPage.getNumber(), BUTTONS_TO_SHOW));
         return "albums";
+    }
+
+    private Page<Album> pageFormer(String artistName,
+                                   Optional<String> sortBy,
+                                   int evalPageSize,
+                                   int evalPage) {
+        Page<Album> albumsPage;
+        if (sortBy.isPresent()) {
+            Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, sortBy.get()));
+            albumsPage = albumRepository.findByArtistName(artistName, new PageRequest(evalPage, evalPageSize, sort));
+        } else {
+            albumsPage = albumRepository.findByArtistName(artistName, new PageRequest(evalPage, evalPageSize));
+        }
+        return albumsPage;
     }
 
     @GetMapping("/addAlbum")
@@ -80,7 +100,7 @@ public class AlbumsController {
     public String deleteAlbum(@RequestParam Integer albumId,
                               @RequestParam String artistName) {
         albumRepository.deleteById(albumId);
-       return "redirect:/albums?artistName=" + artistName;
+        return "redirect:/albums?artistName=" + artistName;
     }
 
 }

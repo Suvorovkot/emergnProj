@@ -73,13 +73,8 @@ public class ArtistsController {
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
         Page<Artist> artistsPage;
 
-        if (sortBy.isPresent()) {
-            artistsPage = pageFormerWithSorting(stageName, sortBy.get(), evalPage, evalPageSize);
-            model.addAttribute("sortBy", sortBy.get());
-        } else {
-            artistsPage = pageFormerWithoutSorting(stageName, evalPage, evalPageSize);
-        }
-
+        artistsPage = pageFormer(stageName, sortBy, evalPageSize, evalPage);
+        sortBy.ifPresent((sort) -> model.addAttribute("sortBy", sort));
         stageName.ifPresent((name) -> model.addAttribute("stageName", name));
         model.addAttribute("artistsPage", artistsPage);
         model.addAttribute("selectedPageSize", evalPageSize);
@@ -89,7 +84,23 @@ public class ArtistsController {
         return "artists";
     }
 
-    private Page<Artist> pageFormerWithSorting(Optional<String> stageName, String sortBy, Integer evalPage, Integer evalPageSize) {
+    private Page<Artist> pageFormer(Optional<String> stageName,
+                                    Optional<String> sortBy,
+                                    int evalPageSize,
+                                    int evalPage) {
+        Page<Artist> artistsPage;
+        if (sortBy.isPresent()) {
+            artistsPage = pageFormerWithSorting(stageName, sortBy.get(), evalPage, evalPageSize);
+        } else {
+            artistsPage = pageFormerWithoutSorting(stageName, evalPage, evalPageSize);
+        }
+        return artistsPage;
+    }
+
+    private Page<Artist> pageFormerWithSorting(Optional<String> stageName,
+                                               String sortBy,
+                                               int evalPage,
+                                               int evalPageSize) {
         Page<Artist> artistsPage;
         Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, sortBy));
         if (stageName.isPresent()) {
@@ -100,7 +111,9 @@ public class ArtistsController {
         return artistsPage;
     }
 
-    private Page<Artist> pageFormerWithoutSorting(Optional<String> stageName, Integer evalPage, Integer evalPageSize) {
+    private Page<Artist> pageFormerWithoutSorting(Optional<String> stageName,
+                                                  int evalPage,
+                                                  int evalPageSize) {
         Page<Artist> artistsPage;
         if (stageName.isPresent()) {
             artistsPage = artistRepository.findByStageName(stageName.get(), new PageRequest(evalPage, evalPageSize));

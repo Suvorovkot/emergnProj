@@ -14,21 +14,19 @@
 
         function sendSorting(field, name) {
             var sort = document.getElementById("sorting").value;
-            var stg = document.getElementById("stage").value;
-
             if (!sort) {
                 if (!name.value) {
                     window.location = '/artists?sortBy=' + field;
                 }
             } else {
-
                 if (name.value) {
-                window.location = '/artists?stageName=' + name.value;
+                    window.location = '/artists?stageName=' + name.value;
                 } else {
-                window.location = '/artists';
+                    window.location = '/artists';
                 }
             }
         };
+
 
 
     </script>
@@ -44,10 +42,10 @@
         pointer-events: none;
     }
 
-
     </style>
     <style type="text/css">
         .point { cursor: pointer; }
+
 
 
     </style>
@@ -82,6 +80,7 @@
 <div class="container">
     <input hidden th:value="${sortBy}" id="sorting">
     <input hidden th:value="${stageName}" id="stage">
+
     <div class="page-header" id="banner">
         <div class="row">
             <div class="col-lg-10 col-md-7 col-sm-6">

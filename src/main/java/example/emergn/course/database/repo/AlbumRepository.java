@@ -6,8 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface AlbumRepository extends PagingAndSortingRepository<Album, Integer> {
     Page<Album> findByArtistName(String artistName, Pageable var1);

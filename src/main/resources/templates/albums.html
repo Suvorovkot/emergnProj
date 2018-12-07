@@ -13,6 +13,15 @@
                 }
         };
 
+        function sendSorting(field) {
+            var sort = document.getElementById("sorting").value;
+            var stageName = document.getElementById("stage").value;
+            if (!sort) {
+                window.location = '/albums?artistName=' + stageName +'&sortBy=' + field;
+            } else {
+                window.location = '/albums?artistName=' + stageName;
+            }
+        };
 
     </script>
     <style>
@@ -29,7 +38,10 @@
 
 
     </style>
+    <style type="text/css">
+        .point { cursor: pointer; }
 
+    </style>
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -55,6 +67,8 @@
 </nav>
 <body>
 <div class="container">
+    <input hidden th:value="${sortBy}" id="sorting">
+    <input hidden th:value="${artistName}" id="stage">
     <div class="page-header" id="banner">
         <div class="row">
             <div class="col-lg-8 col-md-7 col-sm-6">
@@ -63,12 +77,13 @@
                     <thead>
                     <tr>
                         <th>Artist</th>
-                        <th>Album name</th>
-                        <th>Release year</th>
-                        <th>Number of songs</th>
+                        <th class="point" th:onclick="sendSorting('name')">Album name</th>
+                        <th class="point" th:onclick="sendSorting('year')">Release year</th>
+                        <th class="point" th:onclick="sendSorting('numberOfSongs')">Number of songs</th>
                         <th></th>
                         <th></th>
                         <th></th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -83,14 +98,14 @@
                         <form th:action="@{/editAlbum}" method="get" enctype="multipart/form-data">
                             <td class="col-lg-2 col-lg-offset-3">
                                 <input type="hidden" th:value="${album.id}" name="id">
-                                <input type="hidden" th:value="${album.artistName}" name="artistName" id = "artistName">
+                                <input type="hidden" th:value="${album.artistName}" name="artistName" id="artistName">
                                 <input type="submit" class="btn btn-outline-warning" value="Edit"/>
                             </td>
                         </form>
 
                         <td>
 
-                            <button th:id = "${album.id}"
+                            <button th:id="${album.id}"
                                     onClick="confirmDelete(this.id)"
                                     class="btn btn-outline-danger">Delete
                             </button>
@@ -98,8 +113,9 @@
                     </tr>
                     </tbody>
                 </table>
+                <div th:if="${albumsPage.totalPages == 0}"><p>No albums added yet</p></div>
                 <div class="row">
-                    <div th:if="${albumsPage.totalPages != 1}">
+                    <div th:if="${albumsPage.totalPages > 1}">
                         <ul class="pagination">
                             <li th:class="${albumsPage.number == 0} ? disabled"><a
                                     class="page-link"

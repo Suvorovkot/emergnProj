@@ -14,6 +14,4 @@ public enum Countries implements Serializable {
     KANNADA,
     POLAND,
     OTHER;
-
-
 }
