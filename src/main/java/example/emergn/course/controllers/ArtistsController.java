@@ -30,19 +30,16 @@ public class ArtistsController {
 
     @PostMapping(value = "/createArtist")
     public String addArtist(@ModelAttribute Artist artist) {
-        //TODO тут должно быть сообщение об ошибке
         artistRepository.save(artist);
         return "redirect:/artists";
     }
 
     @PostMapping(value = "/editArt")
     public String editArt(@ModelAttribute Artist artist) {
-        //TODO тут тоже может вылетать SQL - ошибка
         artistRepository.save(artist);
         return "redirect:/artists";
     }
 
-    //TODO можно попытаться все же получить боди в качестве пост - реквеста, чтобы в базу лишний раз не гонять
     @GetMapping(value = "/editArtist")
     public String editArtistPage(@RequestParam Integer id,
                                  Model model) {
@@ -51,7 +48,6 @@ public class ArtistsController {
             model.addAttribute("origin", artist.get());
             return "editArtist";
         }
-        //TODO тут должно быть ваше окошко об ошибке (если такого артиста нет)
         return "redirect:/artists";
 
     }
@@ -63,45 +59,55 @@ public class ArtistsController {
 
     @GetMapping(value = "/deleteArtist")
     public String deleteArtist(@RequestParam Integer id) {
-        //TODO если не нашли айдишку (мало ли), выводим ошибку
         artistRepository.deleteById(id);
         return "redirect:/artists";
     }
 
     @GetMapping("artists")
     public String getArtists(Model model,
-                             @RequestParam(value = "stageName", required = false) String stageName,
-                             @RequestParam("pageSize") Optional<Integer> pageSize,
-                             @RequestParam("page") Optional<Integer> page,
+                             @RequestParam Optional<String> stageName,
+                             @RequestParam Optional<Integer> pageSize,
+                             @RequestParam Optional<Integer> page,
                              @RequestParam Optional<String> sortBy) {
         int evalPageSize = pageSize.orElse(INITIAL_PAGE_SIZE);
         int evalPage = (page.orElse(0) < 1) ? INITIAL_PAGE : page.get() - 1;
         Page<Artist> artistsPage;
 
-        model.addAttribute("stageName", stageName);
         if (sortBy.isPresent()) {
-            Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, sortBy.get()));
-            if (stageName != null) {
-                artistsPage = artistRepository.findByStageName(stageName, new PageRequest(evalPage, evalPageSize, sort));
-            } else {
-                artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize, sort));
-            }
+            artistsPage = pageFormerWithSorting(stageName, sortBy.get(), evalPage, evalPageSize);
             model.addAttribute("sortBy", sortBy.get());
         } else {
-            if (stageName != null) {
-                artistsPage = artistRepository.findByStageName(stageName, new PageRequest(evalPage, evalPageSize));
-            } else {
-                artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
-            }
+            artistsPage = pageFormerWithoutSorting(stageName, evalPage, evalPageSize);
         }
 
-        model.addAttribute("stageName", stageName);
+        stageName.ifPresent((name) -> model.addAttribute("stageName", name));
         model.addAttribute("artistsPage", artistsPage);
         model.addAttribute("selectedPageSize", evalPageSize);
         model.addAttribute("pageSizes", PAGE_SIZES);
         model.addAttribute("pager", new Pager(artistsPage.getTotalPages(), artistsPage.getNumber(), BUTTONS_TO_SHOW));
 
         return "artists";
+    }
+
+    private Page<Artist> pageFormerWithSorting(Optional<String> stageName, String sortBy, Integer evalPage, Integer evalPageSize) {
+        Page<Artist> artistsPage;
+        Sort sort = new Sort(new Sort.Order(Sort.Direction.ASC, sortBy));
+        if (stageName.isPresent()) {
+            artistsPage = artistRepository.findByStageName(stageName.get(), new PageRequest(evalPage, evalPageSize, sort));
+        } else {
+            artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize, sort));
+        }
+        return artistsPage;
+    }
+
+    private Page<Artist> pageFormerWithoutSorting(Optional<String> stageName, Integer evalPage, Integer evalPageSize) {
+        Page<Artist> artistsPage;
+        if (stageName.isPresent()) {
+            artistsPage = artistRepository.findByStageName(stageName.get(), new PageRequest(evalPage, evalPageSize));
+        } else {
+            artistsPage = artistRepository.findAll(new PageRequest(evalPage, evalPageSize));
+        }
+        return artistsPage;
     }
 
 }
